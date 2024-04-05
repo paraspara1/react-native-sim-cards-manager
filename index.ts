@@ -1,4 +1,4 @@
-import { NativeModules, PermissionsAndroid, Platform, Rationale } from 'react-native';
+import { NativeModules, Permission, PermissionsAndroid, Platform, Rationale } from 'react-native';
 
 const LINKING_ERROR =
   `The package 'react-native-sim-cards-manager' doesn't seem to be linked. Make sure: \n\n` +
@@ -20,25 +20,28 @@ const SimCardsManagerModule = NativeModules.SimCardsManager
 export async function requestCellularNetworkPermission(then: () => any, rationale?: Rationale) {
   if (Platform.OS == 'android') {
     let granted = PermissionsAndroid.RESULTS.DENIED;
-    if(Platform.Version >= 33){ 
-        granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.READ_PHONE_NUMBERS, 
-          rationale ?? { 
-            title: 'App Permission', 
-            message: 'App needs access to get informations of your cellular network', 
-            buttonNeutral: 'Ask Me Later', 
-            buttonNegative: 'Cancel', 
-            buttonPositive: 'OK', 
-          }); 
+    if (Platform.Version >= 33) {
+      granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_PHONE_NUMBERS as Permission,
+        rationale ?? {
+          title: 'App Permission',
+          message: 'App needs access to get informations of your cellular network',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        }
+      );
+    }
+    granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE as Permission,
+      rationale ?? {
+        title: 'App Permission',
+        message: 'App needs access to get informations of your cellular network',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
       }
-      granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE, 
-        rationale ?? { 
-          title: 'App Permission', 
-          message: 'App needs access to get informations of your cellular network', 
-          buttonNeutral: 'Ask Me Later', 
-          buttonNegative: 'Cancel', 
-          buttonPositive: 'OK', 
-        }); 
+    );
 
     console.log(granted);
     console.log(PermissionsAndroid.RESULTS);
