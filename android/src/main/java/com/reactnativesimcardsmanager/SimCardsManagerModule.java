@@ -28,7 +28,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.module.annotations.ReactModule;
+import com.facebook.react.module.annotatfactions.ReactModule;
 
 import java.util.List;
 
@@ -243,7 +243,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
         0,
         new Intent(ACTION_DOWNLOAD_SUBSCRIPTION),
         PendingIntent.FLAG_UPDATE_CURRENT |
-            PendingIntent.FLAG_MUTABLE);
+            PendingIntent.FLAG_MUTABLE).setPackage(mReactContext.getPackageName());
 
     mgr.downloadSubscription(sub, true, callbackIntent);
   }
