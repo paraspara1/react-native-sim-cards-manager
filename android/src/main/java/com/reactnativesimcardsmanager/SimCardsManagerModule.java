@@ -157,7 +157,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       int resolutionRequestCode = 3;
       PendingIntent callbackIntent = PendingIntent.getBroadcast(mReactContext, resolutionRequestCode,
           new Intent(ACTION_DOWNLOAD_SUBSCRIPTION), PendingIntent.FLAG_UPDATE_CURRENT |
-              PendingIntent.FLAG_MUTABLE);
+              PendingIntent.FLAG_MUTABLE).setPackage(mReactContext.getPackageName());
 
       mgr.startResolutionActivity(mReactContext.getCurrentActivity(), resolutionRequestCode, intent, callbackIntent);
     } catch (Exception e) {
