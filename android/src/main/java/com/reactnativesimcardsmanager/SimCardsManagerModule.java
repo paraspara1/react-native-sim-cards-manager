@@ -156,10 +156,9 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       // FIXME: review logic of resolve functions
       int resolutionRequestCode = 3;
       PendingIntent callbackIntent = PendingIntent.getBroadcast(mReactContext, resolutionRequestCode,
-          new Intent(ACTION_DOWNLOAD_SUBSCRIPTION), PendingIntent.FLAG_UPDATE_CURRENT |
-              PendingIntent.FLAG_MUTABLE)
-              
-    callbackIntent.setPackage(mReactContext.getPackageName());
+          new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()), PendingIntent.FLAG_UPDATE_CURRENT |
+              PendingIntent.FLAG_MUTABLE);
+
 
       mgr.startResolutionActivity(mReactContext.getCurrentActivity(), resolutionRequestCode, intent, callbackIntent);
     } catch (Exception e) {
@@ -243,11 +242,9 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
     PendingIntent callbackIntent = PendingIntent.getBroadcast(
         mReactContext,
         0,
-        new Intent(ACTION_DOWNLOAD_SUBSCRIPTION),
+        new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()),
         PendingIntent.FLAG_UPDATE_CURRENT |
-            PendingIntent.FLAG_MUTABLE)
-
-    callbackIntent.setPackage(mReactContext.getPackageName());
+            PendingIntent.FLAG_MUTABLE);
 
     mgr.downloadSubscription(sub, true, callbackIntent);
   }
