@@ -82,7 +82,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
             number = manager.getPhoneNumber(subInfo.getSubscriptionId());
           } else {
             number = subInfo.getNumber();
-          } 
+          }
 
           CharSequence carrierName = subInfo.getCarrierName();
           String countryIso = subInfo.getCountryIso();
@@ -131,7 +131,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
     }
 
     if (accountHandle != null) {
-      Bundle extras = new Bundle();  
+      Bundle extras = new Bundle();
       extras.putParcelable(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE,accountHandle);
       telecomManager.placeCall(uri, extras);
     }
@@ -179,7 +179,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
   @RequiresApi(api = Build.VERSION_CODES.P)
   @ReactMethod
   public void setupEsim(ReadableMap config, Promise promise) {
-    
+
     if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.P) {
       promise.reject("0", "EuiccManager is not available or before Android 9 (API 28)");
       return;
@@ -208,6 +208,10 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
           return;
         }
         int resultCode = getResultCode();
+        int detailedCode = intent.getIntExtra(
+          EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_DETAILED_CODE,
+          0 /* defaultValue*/);
+
         if (resultCode == EuiccManager.EMBEDDED_SUBSCRIPTION_RESULT_RESOLVABLE_ERROR && mgr != null) {
           handleResolvableError(promise, intent);
         } else if (resultCode == EuiccManager.EMBEDDED_SUBSCRIPTION_RESULT_OK) {
@@ -215,7 +219,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
         } else if (resultCode == EuiccManager.EMBEDDED_SUBSCRIPTION_RESULT_ERROR) {
           // Embedded Subscription Error
           promise.reject("2",
-              "EMBEDDED_SUBSCRIPTION_RESULT_ERROR - Can't add an Esim subscription");
+              "EMBEDDED_SUBSCRIPTION_RESULT_ERROR - Can't add an Esim subscription. Detailed code:" + String.valueOf(detailedCode));
         } else {
           // Unknown Error
           promise.reject("3",
