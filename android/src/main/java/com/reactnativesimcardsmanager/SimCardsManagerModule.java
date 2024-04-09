@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.telephony.euicc.DownloadableSubscription;
 import android.content.IntentFilter;
 import android.content.Context;
-import android.content.Intent.setPackage;
 import android.content.BroadcastReceiver;
 import android.telecom.PhoneAccountHandle;
 import android.telecom.TelecomManager;
@@ -158,7 +157,9 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       int resolutionRequestCode = 3;
       PendingIntent callbackIntent = PendingIntent.getBroadcast(mReactContext, resolutionRequestCode,
           new Intent(ACTION_DOWNLOAD_SUBSCRIPTION), PendingIntent.FLAG_UPDATE_CURRENT |
-              PendingIntent.FLAG_MUTABLE).setPackage(mReactContext.getPackageName());
+              PendingIntent.FLAG_MUTABLE)
+              
+    callbackIntent.setPackage(mReactContext.getPackageName());
 
       mgr.startResolutionActivity(mReactContext.getCurrentActivity(), resolutionRequestCode, intent, callbackIntent);
     } catch (Exception e) {
@@ -244,7 +245,9 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
         0,
         new Intent(ACTION_DOWNLOAD_SUBSCRIPTION),
         PendingIntent.FLAG_UPDATE_CURRENT |
-            PendingIntent.FLAG_MUTABLE).setPackage(mReactContext.getPackageName());
+            PendingIntent.FLAG_MUTABLE)
+
+    callbackIntent.setPackage(mReactContext.getPackageName());
 
     mgr.downloadSubscription(sub, true, callbackIntent);
   }
