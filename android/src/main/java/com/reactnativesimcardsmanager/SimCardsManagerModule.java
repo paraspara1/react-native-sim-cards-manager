@@ -155,10 +155,10 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_DETAILED_CODE,
     0 /* defaultValue*/);
 
-    int operationCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_OPERATION_CODE)
-    int errorCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_ERROR_CODE)
-    String smdxSubjectCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_SMDX_SUBJECT_CODE)
-    String smdxReasonCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_SMDX_REASON_CODE)
+    int operationCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_OPERATION_CODE);
+    int errorCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_ERROR_CODE);
+    String smdxSubjectCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_SMDX_SUBJECT_CODE);
+    String smdxReasonCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_SMDX_REASON_CODE);
 
     try {
       // Resolvable error, attempt to resolve it by a user action
