@@ -155,6 +155,11 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_DETAILED_CODE,
     0 /* defaultValue*/);
 
+    int operationCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_OPERATION_CODE)
+    int errorCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_ERROR_CODE)
+    String smdxSubjectCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_SMDX_SUBJECT_CODE)
+    String smdxReasonCode = intent.get(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_SMDX_REASON_CODE)
+
     try {
       // Resolvable error, attempt to resolve it by a user action
       // FIXME: review logic of resolve functions
@@ -167,7 +172,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       mgr.startResolutionActivity(mReactContext.getCurrentActivity(), resolutionRequestCode, intent, callbackIntent);
     } catch (Exception e) {
       promise.reject("3", "EMBEDDED_SUBSCRIPTION_RESULT_RESOLVABLE_ERROR - Can't setup eSim due to Activity error "
-          + e.getLocalizedMessage() + " detailed code:" + String.valueOf(detailedCode));
+          + e.getLocalizedMessage() + " detailed code:" + String.valueOf(detailedCode)  + " operation code:" + String.valueOf(operationCode) + " error code:" + String.valueOf(errorCode) + " smdxSubjectCode:" + smdxSubjectCode + " smdxReasonCode:" + smdxReasonCode);
     }
   }
 
