@@ -30,10 +30,7 @@ Add in your Android Manifest:
           android:name="android.permission.READ_PHONE_STATE" />
 ```
 
-
-
 To use eSIM features, **for regular apps**, please [follow this](https://source.android.com/docs/core/connect/esim-overview#carrier-privileges)
-
 
 To use eSIM features, **for system apps**, add in your Android Manifest:
 
@@ -43,7 +40,6 @@ To use eSIM features, **for system apps**, add in your Android Manifest:
 ```
 
 More info [here](https://source.android.com/devices/tech/connect/esim-euicc-api#download-sub)
-
 
 #### iOS
 
@@ -139,8 +135,8 @@ Entry parameters for the bridge:
 | ---------------- | --------- | --------------------------------------------------------------------------------------------------------------- |
 | address          | N/A       | The address of the carrier network’s eSIM server                                                                |
 | confirmationCode | N/A       | The provisioning request’s confirmation code, provided by the network operator when initiating an eSIM download |
-| eid            | N/A       | The provisioning request’s eUICC identifier                                                                     |
-| iccid          | N/A       | The provisioning request’s Integrated Circuit Card Identifier                                                   |
+| eid              | N/A       | The provisioning request’s eUICC identifier                                                                     |
+| iccid            | N/A       | The provisioning request’s Integrated Circuit Card Identifier                                                   |
 | matchingId       | N/A       | The provisioning request’s matching identifier                                                                  |
 | oid              | N/A       | The provisioning request’s Object Identifier                                                                    |
 
@@ -179,7 +175,7 @@ SimCardsManagerModule.setupEsim({
 
 ### 1.0.18
 
-- **Fix** fix setupEsim. check for OS version P or above, before continuing and return if below. 
+- **Fix** fix setupEsim. check for OS version P or above, before continuing and return if below.
 - Moved initMgr() to after the version check.
 
 ### 1.0.12 & .13 & .14 & .15 & .16 & .17
@@ -188,8 +184,8 @@ SimCardsManagerModule.setupEsim({
 
 ### 1.0.11
 
-- **Fix** Android -  get phone number on API 33
-- Android - ```sendPhoneCall``` with phone number and sim slot index
+- **Fix** Android - get phone number on API 33
+- Android - `sendPhoneCall` with phone number and sim slot index
 
 ### 1.0.10
 

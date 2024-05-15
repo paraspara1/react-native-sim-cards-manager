@@ -151,6 +151,10 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
 
   @RequiresApi(api = Build.VERSION_CODES.P)
   private void handleResolvableError(Promise promise, Intent intent) {
+    int detailedCode = intent.getIntExtra(
+      EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_DETAILED_CODE,
+    0 /* defaultValue*/);
+
     try {
       // Resolvable error, attempt to resolve it by a user action
       // FIXME: review logic of resolve functions
@@ -163,7 +167,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       mgr.startResolutionActivity(mReactContext.getCurrentActivity(), resolutionRequestCode, intent, callbackIntent);
     } catch (Exception e) {
       promise.reject("3", "EMBEDDED_SUBSCRIPTION_RESULT_RESOLVABLE_ERROR - Can't setup eSim due to Activity error "
-          + e.getLocalizedMessage());
+          + e.getLocalizedMessage() + " detailed code:" + String.valueOf(detailedCode));
     }
   }
 
