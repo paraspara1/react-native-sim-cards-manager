@@ -227,11 +227,11 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
           promise.resolve(true);
         } else if (resultCode == EuiccManager.EMBEDDED_SUBSCRIPTION_RESULT_ERROR) {
           // Embedded Subscription Error
-          promise.reject("2",
+          promise.reject(String.valueOf(detailedCode),
               "EMBEDDED_SUBSCRIPTION_RESULT_ERROR - Can't add an Esim subscription. Detailed code:" + String.valueOf(detailedCode) + " operation code:" + String.valueOf(operationCode) + " error code:" + String.valueOf(errorCode) + " smdxSubjectCode:" + smdxSubjectCode + " smdxReasonCode:" + smdxReasonCode);
         } else {
           // Unknown Error
-          promise.reject("3",
+          promise.reject(String.valueOf(resultCode),
               "Can't add an Esim subscription due to unknown error, resultCode is:" + String.valueOf(resultCode));
         }
       }
