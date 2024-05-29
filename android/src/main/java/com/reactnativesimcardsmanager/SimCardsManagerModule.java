@@ -164,7 +164,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
 
       mgr.startResolutionActivity(mReactContext.getCurrentActivity(), resolutionRequestCode, intent, callbackIntent);
     } catch (Exception e) {
-        Log.d("THISERROR", "exception", e);
+        Log.w("THISERROR", "exception", e);
       promise.reject("3", "EMBEDDED_SUBSCRIPTION_RESULT_RESOLVABLE_ERROR - Can't setup eSim due to Activity error "
           + e.getMessage());
     }
