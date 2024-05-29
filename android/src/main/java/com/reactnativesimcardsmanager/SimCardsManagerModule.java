@@ -258,10 +258,12 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
 
     PendingIntent callbackIntent = PendingIntent.getBroadcast(
         mReactContext,
-        0,
+        (int) System.currentTimeMillis(),
         new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()),
         PendingIntent.FLAG_UPDATE_CURRENT |
             PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_ONE_SHOT);
+
+    Log.i("INSTALL", "Starting install");
 
     mgr.downloadSubscription(sub, true, callbackIntent);
   }
