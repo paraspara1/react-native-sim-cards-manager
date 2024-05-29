@@ -159,12 +159,11 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       int resolutionRequestCode = 3;
       PendingIntent callbackIntent = PendingIntent.getBroadcast(mReactContext, resolutionRequestCode,
           new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()),
-          PendingIntent.FLAG_UPDATE_CURRENT |
-              PendingIntent.FLAG_MUTABLE);
+          PendingIntent.FLAG_ONE_SHOT);
 
       mgr.startResolutionActivity(mReactContext.getCurrentActivity(), resolutionRequestCode, intent, callbackIntent);
     } catch (Exception e) {
-      Log.w("THISERROR", "exception", e);
+      Log.w("sim-cards-manager", "exception", e);
       promise.reject("3", "EMBEDDED_SUBSCRIPTION_RESULT_RESOLVABLE_ERROR - Can't setup eSim due to Activity error "
           + e.getMessage());
     }
@@ -260,10 +259,9 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
         mReactContext,
         (int) System.currentTimeMillis(),
         new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()),
-        PendingIntent.FLAG_UPDATE_CURRENT |
-            PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent.FLAG_ONE_SHOT);
 
-    Log.i("INSTALL", "Starting install");
+    Log.i("sim-cards-manager", "Starting install");
 
     mgr.downloadSubscription(sub, true, callbackIntent);
   }
