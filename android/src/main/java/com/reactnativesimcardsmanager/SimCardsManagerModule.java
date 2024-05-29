@@ -159,8 +159,9 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       int resolutionRequestCode = 3;
       PendingIntent callbackIntent = PendingIntent.getBroadcast(mReactContext, resolutionRequestCode,
           new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()),
-          PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT);
-
+          PendingIntent.FLAG_UPDATE_CURRENT |
+            PendingIntent.FLAG_MUTABLE);
+      Log.i("sim-cards-manager", "asking for permission")
       mgr.startResolutionActivity(mReactContext.getCurrentActivity(), resolutionRequestCode, intent, callbackIntent);
     } catch (Exception e) {
       Log.w("sim-cards-manager", "exception", e);
@@ -257,9 +258,10 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
 
     PendingIntent callbackIntent = PendingIntent.getBroadcast(
         mReactContext,
-        (int) System.currentTimeMillis(),
+        0,
         new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()),
-        PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent.FLAG_UPDATE_CURRENT |
+            PendingIntent.FLAG_MUTABLE);
 
     Log.i("sim-cards-manager", "Starting install");
 
