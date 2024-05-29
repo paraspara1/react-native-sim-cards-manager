@@ -114,7 +114,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
         promise.reject("0", "This functionality is not supported before Android 5.1 (22)");
       }
     } catch (Exception e) {
-      promise.reject("1", "Something goes wrong to fetch simcards: " + e.getLocalizedMessage());
+      promise.reject("1", "Something goes wrong to fetch simcards: " + e.getMessage());
     }
     promise.resolve(simCardsList);
   }
@@ -166,7 +166,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
     } catch (Exception e) {
         Log.d("THISERROR", "exception", e);
       promise.reject("3", "EMBEDDED_SUBSCRIPTION_RESULT_RESOLVABLE_ERROR - Can't setup eSim due to Activity error "
-          + e.getLocalizedMessage());
+          + e.getMessage());
     }
   }
 
