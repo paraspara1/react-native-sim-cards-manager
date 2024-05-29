@@ -161,7 +161,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
           new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()),
           PendingIntent.FLAG_UPDATE_CURRENT |
             PendingIntent.FLAG_MUTABLE);
-      Log.i("sim-cards-manager", "asking for permission")
+      Log.i("sim-cards-manager", "asking for permission");
       mgr.startResolutionActivity(mReactContext.getCurrentActivity(), resolutionRequestCode, intent, callbackIntent);
     } catch (Exception e) {
       Log.w("sim-cards-manager", "exception", e);
