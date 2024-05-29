@@ -79,7 +79,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
           WritableMap simCard = Arguments.createMap();
 
           String number = "";
-          if(android.os.Build.VERSION.SDK_INT >= 33) {
+          if (android.os.Build.VERSION.SDK_INT >= 33) {
             number = manager.getPhoneNumber(subInfo.getSubscriptionId());
           } else {
             number = subInfo.getNumber();
@@ -123,7 +123,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void sendPhoneCall(String phoneNumberString, int simSlotIndex) {
     Uri uri = Uri.parse("tel:" + phoneNumberString.trim());
-    TelecomManager telecomManager =(TelecomManager) mReactContext.getSystemService(Context.TELECOM_SERVICE);
+    TelecomManager telecomManager = (TelecomManager) mReactContext.getSystemService(Context.TELECOM_SERVICE);
     List<PhoneAccountHandle> list = telecomManager.getCallCapablePhoneAccounts();
 
     PhoneAccountHandle accountHandle = null;
@@ -133,7 +133,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
 
     if (accountHandle != null) {
       Bundle extras = new Bundle();
-      extras.putParcelable(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE,accountHandle);
+      extras.putParcelable(TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, accountHandle);
       telecomManager.placeCall(uri, extras);
     }
   }
@@ -158,13 +158,13 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       // FIXME: review logic of resolve functions
       int resolutionRequestCode = 3;
       PendingIntent callbackIntent = PendingIntent.getBroadcast(mReactContext, resolutionRequestCode,
-          new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()), PendingIntent.FLAG_UPDATE_CURRENT |
+          new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()),
+          PendingIntent.FLAG_UPDATE_CURRENT |
               PendingIntent.FLAG_MUTABLE);
-
 
       mgr.startResolutionActivity(mReactContext.getCurrentActivity(), resolutionRequestCode, intent, callbackIntent);
     } catch (Exception e) {
-        Log.w("THISERROR", "exception", e);
+      Log.w("THISERROR", "exception", e);
       promise.reject("3", "EMBEDDED_SUBSCRIPTION_RESULT_RESOLVABLE_ERROR - Can't setup eSim due to Activity error "
           + e.getMessage());
     }
@@ -195,15 +195,16 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       return;
     }
 
-//    if (!checkCarrierPrivileges()) {
-//      promise.reject("1", "No carrier privileges detected");
-//      return;
-//    }
+    // if (!checkCarrierPrivileges()) {
+    // promise.reject("1", "No carrier privileges detected");
+    // return;
+    // }
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
 
       @Override
       public void onReceive(Context context, Intent intent) {
+        
         if (!ACTION_DOWNLOAD_SUBSCRIPTION.equals(intent.getAction())) {
           promise.reject("3",
               "Can't setup eSim due to wrong Intent:" + intent.getAction() + " instead of "
@@ -212,14 +213,13 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
         }
         int resultCode = getResultCode();
         int detailedCode = intent.getIntExtra(
-          EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_DETAILED_CODE,
-          0 /* defaultValue*/);
+            EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_DETAILED_CODE,
+            0 /* defaultValue */);
 
         int operationCode = intent.getIntExtra(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_OPERATION_CODE, 0);
         int errorCode = intent.getIntExtra(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_ERROR_CODE, 0);
         String smdxSubjectCode = intent.getStringExtra(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_SMDX_SUBJECT_CODE);
         String smdxReasonCode = intent.getStringExtra(EuiccManager.EXTRA_EMBEDDED_SUBSCRIPTION_SMDX_REASON_CODE);
-
 
         if (resultCode == EuiccManager.EMBEDDED_SUBSCRIPTION_RESULT_RESOLVABLE_ERROR && mgr != null) {
           handleResolvableError(promise, intent);
@@ -228,7 +228,10 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
         } else if (resultCode == EuiccManager.EMBEDDED_SUBSCRIPTION_RESULT_ERROR) {
           // Embedded Subscription Error
           promise.reject(String.valueOf(detailedCode),
-              "EMBEDDED_SUBSCRIPTION_RESULT_ERROR - Can't add an Esim subscription. Detailed code:" + String.valueOf(detailedCode) + " operation code:" + String.valueOf(operationCode) + " error code:" + String.valueOf(errorCode) + " smdxSubjectCode:" + smdxSubjectCode + " smdxReasonCode:" + smdxReasonCode);
+              "EMBEDDED_SUBSCRIPTION_RESULT_ERROR - Can't add an Esim subscription. Detailed code:"
+                  + String.valueOf(detailedCode) + " operation code:" + String.valueOf(operationCode) + " error code:"
+                  + String.valueOf(errorCode) + " smdxSubjectCode:" + smdxSubjectCode + " smdxReasonCode:"
+                  + smdxReasonCode);
         } else {
           // Unknown Error
           promise.reject(String.valueOf(resultCode),
@@ -237,15 +240,16 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
       }
     };
 
-   // Changes for registering reciever for Android 14
-   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-      mReactContext.registerReceiver(receiver, new IntentFilter(ACTION_DOWNLOAD_SUBSCRIPTION), Context.RECEIVER_NOT_EXPORTED);
-    }else {
+    // Changes for registering reciever for Android 14
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      mReactContext.registerReceiver(receiver, new IntentFilter(ACTION_DOWNLOAD_SUBSCRIPTION),
+          Context.RECEIVER_NOT_EXPORTED);
+    } else {
       mReactContext.registerReceiver(
-              receiver,
-              new IntentFilter(ACTION_DOWNLOAD_SUBSCRIPTION),
-              null,
-              null);
+          receiver,
+          new IntentFilter(ACTION_DOWNLOAD_SUBSCRIPTION),
+          null,
+          null);
     }
 
     DownloadableSubscription sub = DownloadableSubscription.forActivationCode(
@@ -257,7 +261,7 @@ public class SimCardsManagerModule extends ReactContextBaseJavaModule {
         0,
         new Intent(ACTION_DOWNLOAD_SUBSCRIPTION).setPackage(mReactContext.getPackageName()),
         PendingIntent.FLAG_UPDATE_CURRENT |
-            PendingIntent.FLAG_MUTABLE);
+            PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_ONE_SHOT);
 
     mgr.downloadSubscription(sub, true, callbackIntent);
   }
