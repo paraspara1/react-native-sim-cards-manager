@@ -1,5 +1,5 @@
 {
-  "name": "react-native-sim-cards-manager",
+  "name": "@paraspara/react-native-sim-cards-manager",
   "version": "1.0.21",
   "description": "react-native-sim-cards-manager description",
   "main": "index.js",
